@@ -6,9 +6,9 @@ import os
 translation = {}
 data_dict = {}
 try:
-    words_to_learn = pandas.read_csv("data/words_to_learn.csv")
+    words_to_learn = pandas.read_csv("words_to_learn.csv")
 except FileNotFoundError:
-    words_to_learn = pandas.read_csv("data/data.csv")
+    words_to_learn = pandas.read_csv("data.csv")
     data_dict = words_to_learn.to_dict(orient="records")
 else:
     data_dict = words_to_learn.to_dict(orient="records")
@@ -17,12 +17,12 @@ else:
 def delete_progress():
     global data_dict
     try:
-        os.remove("data/words_to_learn.csv")
+        os.remove("words_to_learn.csv")
     except FileNotFoundError:
         pass
     else:
         change_word()
-        words_to_learn = pandas.read_csv("data/data.csv")
+        words_to_learn = pandas.read_csv("data.csv")
         data_dict = words_to_learn.to_dict(orient="records")
 
 
@@ -46,7 +46,7 @@ def remove_word():
     data_dict.remove(translation)
     print(len(data_dict))
     words_to_learn = pandas.DataFrame(data_dict)
-    words_to_learn.to_csv("data/words_to_learn.csv", index=False)
+    words_to_learn.to_csv("words_to_learn.csv", index=False)
     change_word()
 
 
@@ -55,8 +55,8 @@ window.title("Flashy")
 window.config(padx=50, pady=50, bg="white")
 flip_timer = window.after(3000, func=flip_card)
 
-front_card = PhotoImage(file="images/frontCard.png")
-back_card = PhotoImage(file="images/backCard.png")
+front_card = PhotoImage(file="frontCard.png")
+back_card = PhotoImage(file="backCard.png")
 canvas = Canvas(width=600, height=426, highlightthickness=0)
 image = canvas.create_image(300, 213, image=front_card)
 
@@ -68,16 +68,16 @@ word = canvas.create_text(300, 250, text="", font=font)
 
 canvas.grid(row=0, column=0, columnspan=2)
 
-image_x = PhotoImage(file="images/x-button.png")
+image_x = PhotoImage(file="x-button.png")
 button_x = Button(image=image_x, bd=0, width=100, height=80, bg="white", highlightthickness=0, command=change_word)
 button_x.grid(row=1, column=0)
 
-image_check = PhotoImage(file="images/checked.png")
+image_check = PhotoImage(file="checked.png")
 button_check = Button(image=image_check, bd=0, width=100, height=80, bg="white", highlightthickness=0,
                       command=remove_word)
 button_check.grid(row=1, column=1)
 
-image_refresh = PhotoImage(file="images/refreshing.png")
+image_refresh = PhotoImage(file="refreshing.png")
 button_refresh = Button(image=image_refresh, bd=0, width=100, height=80, bg="white", highlightthickness=0,
                         command=delete_progress)
 button_refresh.grid(row=2, column=0, columnspan=2)
